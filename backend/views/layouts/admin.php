@@ -43,7 +43,7 @@ AppAsset::register($this);
     } else {
         $menuItems = [
             ['label' => 'Home', 'url' => ['/']],
-            ['label' => 'Articles', 'url' => ['/admin/article']],
+            ['label' => 'Posts', 'url' => ['/admin/post']],
             ['label' => 'Users', 'url' => ['/admin/user']],
         ];
         $menuItems[] = '<li>'

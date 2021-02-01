@@ -46,21 +46,10 @@ return [
                 'login' => 'site/login',
                 'admin' => 'admin',
                 'admin/index' => 'admin',
-                'admin/article' => 'admin/article',
-                'admin/article/index' => 'admin/article',
-                'admin/article/create' => 'admin/article/create',
-                'admin/article/view' => 'admin/article/view',
-                'admin/article/update' => 'admin/article/update',
-                'admin/article/delete' => 'admin/article/delete',
             ],
         ],
     ],
 
-    'modules' => [
-        'admin' => [
-            'class' => 'app\modules\admin\Module',
-        ],
-    ],
 
     'params' => $params,
 ];

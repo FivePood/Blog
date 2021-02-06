@@ -10,20 +10,8 @@ use yii\db\Expression;
 
 /**
  * BaseUser model
- *
- * @property integer $userId
- * @property string $username
- * @property string $passwordHash
- * @property string $passwordResetToken
- * @property string $verificationToken
- * @property string $email
- * @property string $authKey
- * @property integer $status
- * @property integer $createdAt
- * @property integer $updatedAt
- * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends BaseUser implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
@@ -58,10 +46,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(), [ //добавляет к функции
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
-        ];
+        ]);
     }
 
     /**

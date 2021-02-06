@@ -50,6 +50,11 @@ return [
         ],
     ],
 
+    'modules' => [
+        'admin' => [
+            'class' => 'backend\modules\admin\Module',
+        ],
+    ],
 
     'params' => $params,
 ];

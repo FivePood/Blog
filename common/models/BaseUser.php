@@ -36,8 +36,9 @@ class BaseUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'authKey', 'passwordHash', 'email', 'createdAt', 'updatedAt'], 'required'],
-            [['status', 'createdAt', 'updatedAt'], 'integer'],
+            [['username', 'authKey', 'passwordHash', 'email'], 'required'],
+            [['status'], 'integer'],
+            [['createdAt', 'updatedAt'], 'safe'],
             [['username', 'passwordHash', 'passwordResetToken', 'email', 'verificationToken'], 'string', 'max' => 255],
             [['authKey'], 'string', 'max' => 32],
             [['username'], 'unique'],
@@ -52,8 +53,8 @@ class BaseUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'userId' => 'BaseUser ID',
-            'username' => 'BaseUser Name',
+            'userId' => 'UserQuery ID',
+            'username' => 'UserQuery Name',
             'authKey' => 'Auth Key',
             'passwordHash' => 'Password Hash',
             'passwordResetToken' => 'Password Reset Token',

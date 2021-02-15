@@ -17,8 +17,10 @@ class BaseUserSearch extends BaseUser
     public function rules()
     {
         return [
-            [['userId', 'status', 'createdAt', 'updatedAt'], 'integer'],
-            [['username', 'authKey', 'passwordHash', 'passwordResetToken', 'email', 'verificationToken'], 'safe'],
+            [['userId', 'status'], 'integer'],
+            [['username', 'authKey', 'passwordHash', 'passwordResetToken', 'email', 'createdAt', 'updatedAt', 'verificationToken'], 'safe'],
+//            [['userId', 'status', 'createdAt', 'updatedAt'], 'integer'],
+//            [['username', 'authKey', 'passwordHash', 'passwordResetToken', 'email', 'verificationToken'], 'safe'],
         ];
     }
 

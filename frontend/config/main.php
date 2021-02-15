@@ -43,13 +43,17 @@ return [
 
         'urlManager' => [
             'enablePrettyUrl' => true,
-//            'enableStrictParsing' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'posts'],
-//                '/' => 'site/index',
-//                'admin' => 'admin',
-//                'admin/index' => 'admin',
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'post'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+                '/'         => 'site/index',
+                'about'     => 'site/about',
+                'contact'   => 'site/contact',
+                'logout'    => 'site/logout',
+                'login'    => 'site/login',
+                'signup'    => 'site/signup',
             ],
         ],
     ],

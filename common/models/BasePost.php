@@ -31,6 +31,7 @@ class BasePost extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['userId'], 'integer'],
             [['title'], 'required'],
             [['title', 'content'], 'string'],
             [['date'], 'date', 'format' => 'php:Y-m-d'],
@@ -45,8 +46,8 @@ class BasePost extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'postId' => 'BasePost ID',
-            'userId' => 'BaseUser ID',
+            'postId' => 'PostQuery ID',
+            'userId' => 'UserQuery ID',
             'title' => 'Title',
             'content' => 'Content',
             'date' => 'Date',

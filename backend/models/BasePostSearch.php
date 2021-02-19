@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\BasePost;
+use common\models\Post;
 
 /**
  * BasePostSearch represents the model behind the search form of `app\models\BasePost`.
  */
-class BasePostSearch extends BasePost
+class BasePostSearch extends Post
 {
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ class BasePostSearch extends BasePost
      */
     public function search($params)
     {
-        $query = BasePost::find();
+        $query = Post::find();
 
         // add conditions that should always apply here
 

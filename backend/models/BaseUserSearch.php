@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\BaseUser;
+use common\models\User;
 
 /**
  * BaseUserSearch represents the model behind the search form of `app\models\BaseUser`.
  */
-class BaseUserSearch extends BaseUser
+class BaseUserSearch extends User
 {
     /**
      * {@inheritdoc}
@@ -19,8 +19,6 @@ class BaseUserSearch extends BaseUser
         return [
             [['userId', 'status'], 'integer'],
             [['username', 'authKey', 'passwordHash', 'passwordResetToken', 'email', 'createdAt', 'updatedAt', 'verificationToken'], 'safe'],
-//            [['userId', 'status', 'createdAt', 'updatedAt'], 'integer'],
-//            [['username', 'authKey', 'passwordHash', 'passwordResetToken', 'email', 'verificationToken'], 'safe'],
         ];
     }
 
@@ -42,7 +40,7 @@ class BaseUserSearch extends BaseUser
      */
     public function search($params)
     {
-        $query = BaseUser::find();
+        $query = User::find();
 
         // add conditions that should always apply here
 

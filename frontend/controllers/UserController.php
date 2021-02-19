@@ -43,13 +43,18 @@ class UserController extends Controller
 
     public function actionLogin()
     {
+//        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return
+
+//                'accessToken' => $newAccessToken->tokenString,
+//            ]
+                $this->goBack();
         } else {
             $model->password = '';
 
@@ -73,6 +78,8 @@ class UserController extends Controller
 
     public function actionSignup()
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');

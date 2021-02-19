@@ -53,8 +53,8 @@ class BaseUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'userId' => 'UserQuery ID',
-            'username' => 'UserQuery Name',
+            'userId' => 'User ID',
+            'username' => 'User Name',
             'authKey' => 'Auth Key',
             'passwordHash' => 'Password Hash',
             'passwordResetToken' => 'Password Reset Token',

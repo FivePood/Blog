@@ -46,8 +46,8 @@ class BasePost extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'postId' => 'PostQuery ID',
-            'userId' => 'UserQuery ID',
+            'postId' => 'Post ID',
+            'userId' => 'User ID',
             'title' => 'Title',
             'content' => 'Content',
             'date' => 'Date',

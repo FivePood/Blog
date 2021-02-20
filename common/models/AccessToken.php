@@ -23,7 +23,7 @@ class AccessToken extends \yii\db\ActiveRecord
     {
         return 'accessToken';
     }
-    protected function generateToken()
+    public function generateToken()
     {
         $this->accessToken = \Yii::$app->security->generateRandomString();
     }

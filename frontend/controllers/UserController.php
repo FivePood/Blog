@@ -2,92 +2,61 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
-use yii\filters\AccessControl;
+use yii\rest\Controller;
 use common\models\LoginForm;
-use frontend\models\SignupForm;
+use common\models\User;
 
 
 class UserController extends Controller
 {
-    public $modelClass = 'common\models\User';
-
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actionLogin()
     {
-//        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return
-
-//                'accessToken' => $newAccessToken->tokenString,
-//            ]
-                $this->goBack();
+        $model->load(Yii::$app->request->bodyParams, '');
+        if ($model = $model->login()) {
+            return [
+                $model->accessToken,
+            ];
         } else {
-            $model->password = '';
-
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+            return [
+                'error' => $model,
+            ];
         }
-    }
-
-    /**
-     * Logs out the current user.
-     *
-     * @return mixed
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
     }
 
     public function actionSignup()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
-        }
+        $request = Yii::$app->request->bodyParams;
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        $model = new User();
+        $model->username = $request['username'];
+        $model->email = $request['email'];
+        $model->setPassword($request['password']);
+        $model->generateAuthKey();
+        $model->generateEmailVerificationToken();
+        $model->status = User::STATUS_ACTIVE;
+
+        if ($model->save()) {
+            $load = new LoginForm();
+            $load->email=$request['email'];
+            $load->password=$request['password'];
+            if ($token = $load->login()) {
+                return [
+                    $token->accessToken,
+                ];
+            } else {
+                return [
+                    'error' => $model,
+                ];
+            }
+        } else {
+            return [
+                'error' => $model,
+            ];
+        }
     }
+
 }

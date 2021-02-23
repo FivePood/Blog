@@ -9,7 +9,7 @@ use common\models\User;
 
 class UserController extends Controller
 {
-    public function actionLogin()
+    public function actionLogin()  //Апи для авторизации пользователя
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $model = new LoginForm();
@@ -25,7 +25,7 @@ class UserController extends Controller
         }
     }
 
-    public function actionSignup()
+    public function actionSignup() //Апи для регистрации пользователя
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
@@ -34,6 +34,9 @@ class UserController extends Controller
         $model = new User();
         $model->username = $request['username'];
         $model->email = $request['email'];
+        if (!$request['password']){
+            return array( 'field' => 'password','message' => 'Password error');
+        }
         $model->setPassword($request['password']);
         $model->generateAuthKey();
         $model->generateEmailVerificationToken();
@@ -58,5 +61,4 @@ class UserController extends Controller
             ];
         }
     }
-
 }

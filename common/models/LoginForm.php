@@ -58,6 +58,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
+            Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
             $token = new AccessToken();
             $token->userId = $this->getUser()->id;
             $token->generateToken();

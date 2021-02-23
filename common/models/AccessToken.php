@@ -27,4 +27,13 @@ class AccessToken extends \yii\db\ActiveRecord
     {
         $this->accessToken = \Yii::$app->security->generateRandomString();
     }
+    public function getUserId($token)
+    {
+        return $this::findUser($token)['userId'];
+    }
+
+    static function findUser($token)
+    {
+        return static::findOne(['accessToken' => $token]);
+    }
 }

@@ -32,8 +32,8 @@ class BasePost extends \yii\db\ActiveRecord
     {
         return [
             [['userId'], 'integer'],
-            [['title'], 'required'],
-            [['title', 'content'], 'string'],
+            [['userId', 'content', 'title'], 'required'],
+            [['content'], 'string'],
             [['date'], 'date', 'format' => 'php:Y-m-d'],
             [['date'], 'default', 'value' => date('Y-m-d')],
             [['title'], 'string', 'max' => 255],

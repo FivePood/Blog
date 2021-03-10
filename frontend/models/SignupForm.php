@@ -1,10 +1,10 @@
 <?php
+
 namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
 use common\models\User;
-use common\models\AccessToken;
 
 /**
  * Signup form
@@ -48,15 +48,25 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
+        $user->status = User::STATUS_ACTIVE;
 
+        if (!$user->save()) {
+            return null;
+        }
+        $loginModel = new LoginForm();
+        $loginModel->email = $this->email;
+        $loginModel->password = $this->password;
+        if (!$token = $loginModel->login()) {
+            return null;
+        }
+        return $token->accessToken;
     }
 
     /**

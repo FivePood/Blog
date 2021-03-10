@@ -1,5 +1,5 @@
 <?php
-namespace common\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
@@ -57,15 +57,14 @@ class LoginForm extends Model
      */
     public function login()
     {
-        if ($this->validate()) {
-            Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-            $token = new AccessToken();
-            $token->userId = $this->getUser()->id;
-            $token->generateToken();
-            return $token->save() ? $token : null;
-        } else {
+        if (!$this->validate()) {
             return null;
         }
+        Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        $token = new AccessToken();
+        $token->userId = $this->getUser()->id;
+        $token->generateToken();
+        return $token->save() ? $token : null;
     }
 
     /**
@@ -78,7 +77,6 @@ class LoginForm extends Model
         if ($this->_user === null) {
             $this->_user = User::findByEmail($this->email);
         }
-
         return $this->_user;
     }
 }

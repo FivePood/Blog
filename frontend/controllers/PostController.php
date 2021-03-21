@@ -13,11 +13,9 @@ class PostController extends Controller
     {
         $postForm = new PostCreateForm();
         $postForm->load(Yii::$app->request->bodyParams, '');
-        if ($postModel = $postForm->create()) {
-//        if ($postForm->create()) {
+        if ($postForm->create()) {
             return [
-                'post' => $postModel,
-//                'post' => $postForm->post->serializeToArray(), //обращение к serializeToArray не происходит
+                'post' => $postForm->post->serializeToArray(),
             ];
         }
         return [

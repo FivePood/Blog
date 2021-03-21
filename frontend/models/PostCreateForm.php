@@ -15,7 +15,6 @@ class PostCreateForm extends Model
     public $title;
     public $content;
     public $accessToken;
-
     public $post;
 
     /**
@@ -36,11 +35,10 @@ class PostCreateForm extends Model
         $post->userId = $token->getUserId($request['accessToken']);
         $post->content = $this->content;
         $post->title = $this->title;
+        $this->post=$post;
         if (!$post->save()) {
-            return null;
-//            return true; //если возвращаю значенине отличное от null то getErrors не работает и ошибка не выдается
+            return false;
         }
-        return $post->serializeToArray();
-//        return false;
+        return true;
     }
 }

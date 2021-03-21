@@ -16,6 +16,8 @@ class PostCreateForm extends Model
     public $content;
     public $accessToken;
 
+    public $post;
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +38,9 @@ class PostCreateForm extends Model
         $post->title = $this->title;
         if (!$post->save()) {
             return null;
+//            return true; //если возвращаю значенине отличное от null то getErrors не работает и ошибка не выдается
         }
         return $post->serializeToArray();
+//        return false;
     }
 }

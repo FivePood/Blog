@@ -23,7 +23,7 @@ class Post extends BasePost
 
         $data['title'] = $this->title;
         $data['content'] = $this->content;
-//        $data['date'] = $this->date;
+        $data['date'] = $this->date;
         $data['author'] = !empty($authorUser) ? $authorUser->username : null;
         return $data;
     }

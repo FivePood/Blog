@@ -7,46 +7,49 @@ use frontend\models\PostCreateForm;
 use frontend\models\PostGetAllForm;
 use frontend\models\PostGetMyForm;
 
-
 class PostController extends Controller
 {
     public function actionCreate() //Апи для публикации поста в блог
     {
-        $post = new PostCreateForm();
-        $post->load(Yii::$app->request->bodyParams, '');
-        if ($postQuery = $post->create()) {
+        $postForm = new PostCreateForm();
+        $postForm->load(Yii::$app->request->bodyParams, '');
+        if ($postModel = $postForm->create()) {
+//        if ($postForm->create()) {
             return [
-                $postQuery,
+                'post' => $postModel,
+//                'post' => $postForm->post->serializeToArray(), //обращение к serializeToArray не происходит
             ];
         }
         return [
-            'error' => $post->getErrors(),
+            'error' => $postForm->getErrors(),
         ];
     }
 
     public function actionGetAll()  //Апи для получения всех публикаций в системе
     {
-        $post = new PostGetAllForm();
-        if ($postQuery = $post->getAll()) {
+        $postForm = new PostGetAllForm();
+        $postForm->load(Yii::$app->request->get(), '');
+        if ($postForm->getAll()) {
             return [
-                $postQuery,
+                'post' => $postForm->seriazliedPostAllArray(),
             ];
         }
         return [
-            'error' => $post->getErrors(),
+            'error' => $postForm->getErrors(),
         ];
     }
 
     public function actionGetMy()  //Апи для получения моих публикаций
     {
-        $post = new PostGetMyForm();
-        if ($postQuery = $post->getMy()) {
+        $postForm = new PostGetMyForm();
+        $postForm->load(Yii::$app->request->get(), '');
+        if ($postForm->getMy()) {
             return [
-                $postQuery,
+                'post' => $postForm->seriazliedPostMyArray(),
             ];
         }
         return [
-            'error' => $post->getErrors(),
+            'error' => $postForm->getErrors(),
         ];
     }
 }

@@ -12,6 +12,20 @@ use common\models\Post;
  */
 class PostGetMyForm extends Model
 {
+    public $limit;
+    public $offset;
+    public $query;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['limit', 'offset'], 'required'],
+        ];
+    }
+
     public function getMy()
     {
         $request = Yii::$app->request->get();
@@ -23,16 +37,20 @@ class PostGetMyForm extends Model
         if (!($user)) {
             return null;
         }
-        $postQuery = Post::find()
+        $this->query = Post::find()
             ->where(['userId' => $user->userId])
             ->limit($limit)
             ->offset($offset);
-        $postData = [];
-        foreach ($postQuery->each() as $post) {
-            $postData[] = $post->serializeToArray();
+        return true;
+
+    }
+
+    public function seriazliedPostMyArray()
+    {
+        $result = [];
+        foreach ($this->query->each() as $post) {
+            $result[] = $post->serializeToArray();
         }
-        return [
-            "post" => $postData,
-        ];
+        return $result;
     }
 }

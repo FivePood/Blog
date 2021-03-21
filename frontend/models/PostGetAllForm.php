@@ -11,21 +11,38 @@ use common\models\Post;
  */
 class PostGetAllForm extends Model
 {
+    public $limit;
+    public $offset;
+    public $query;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['limit', 'offset'], 'required'],
+        ];
+    }
+
     public function getAll()
     {
-        $request = Yii::$app->request->get();
         $deafultLimit = 5;
         $deafultOffset = 0;
         $limit = $request['limit'] ?? $deafultLimit;
         $offset = $request['offset'] ?? $deafultOffset;
-        $post = Post::find()
+        $this->query = Post::find()
             ->limit($limit)
-            ->offset($offset)
-            ->all();
-        $postData = [];
-        foreach ($post as $element) {
-            $postData[] = $element->serializeToArray();
+            ->offset($offset);
+        return true;
+    }
+
+    public function seriazliedPostAllArray()
+    {
+        $result = [];
+        foreach ($this->query->each() as $post) {
+            $result[] = $post->serializeToArray();
         }
-        return $postData;
+        return $result;
     }
 }
